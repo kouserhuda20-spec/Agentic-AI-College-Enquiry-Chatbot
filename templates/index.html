@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bengaluru Engineering Admissions Portal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+   
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+        background-color: #0e1117;
+        color: #ffffff;
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .sidebar {
+        width: 310px;
+        background-color: #161b22;
+        border-right: 1px solid #21262d;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        flex-shrink: 0;
+        overflow-y: auto;
+    }
+
+    .badge-header {
+        background-color: #6366f1;
+        color: #ffffff;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 5px 10px;
+        border-radius: 4px;
+        display: inline-block;
+        margin-bottom: 20px;
+        width: fit-content;
+    }
+
+    .sidebar-section {
+        margin-bottom: 20px;
+    }
+
+    .sidebar-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #8b949e;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .sidebar-text {
+        font-size: 12.5px;
+        color: #c9d1d9;
+        line-height: 1.5;
+        margin-bottom: 6px;
+    }
+
+    .college-select {
+        width: 100%;
+        background-color: #0d1117;
+        color: #58a6ff;
+        border: 1px solid #30363d;
+        padding: 10px;
+        border-radius: 6px;
+        font-size: 13px;
+        outline: none;
+        cursor: pointer;
+        margin-bottom: 15px;
+    }
+
+    .college-select option {
+        background-color: #161b22;
+        color: #ffffff;
+    }
+
+    .category-menu {
+        list-style: none;
+    }
+
+    .category-header {
+        font-size: 13.5px;
+        color: #58a6ff;
+        padding: 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: background 0.2s;
+        font-weight: 500;
+    }
+
+    .category-header:hover {
+        background-color: #1c2128;
+        color: #79c0ff;
+    }
+
+    .submenu {
+        list-style: none;
+        padding-left: 15px;
+        display: none;
+        margin-top: 5px;
+        margin-bottom: 10px;
+    }
+
+    .submenu.open {
+        display: block;
+    }
+
+    .submenu-item {
+        font-size: 12.5px;
+        color: #8b949e;
+        padding: 8px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: 0.2s;
+    }
+
+    .submenu-item:hover {
+        color: #f0f6fc;
+        background-color: #21262d;
+    }
+
+    .clear-btn {
+        margin-top: auto;
+        background-color: #21262d;
+        color: #c9d1d9;
+        border: 1px solid #30363d;
+        padding: 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .clear-btn:hover {
+        background-color: #30363d;
+    }
+
+    .main-container {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        background-color: #0e1117;
+        position: relative;
+        min-width: 0;
+    }
+
+    .chat-content {
+        flex-grow: 1;
+        overflow-y: auto;
+        padding: 30px 10% 120px 10%;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    .header-title {
+        font-size: 26px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .header-sub {
+        font-size: 13.5px;
+        color: #8b949e;
+        margin-bottom: 20px;
+    }
+
+    .selection-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin: 15px 0;
+    }
+
+    .selection-card {
+        background: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 8px;
+        padding: 14px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .selection-card:hover {
+        border-color: #58a6ff;
+        background: #1c2128;
+    }
+
+    .selection-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #58a6ff;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .selection-desc {
+        font-size: 12px;
+        color: #8b949e;
+    }
+
+    .portal-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #238636;
+        margin-bottom: 10px;
+    }
+
+    .portal-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .portal-link {
+        display: inline-block;
+        background: #21262d;
+        color: #58a6ff;
+        text-decoration: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        border: 1px solid #30363d;
+        transition: 0.2s;
+    }
+
+    .portal-link:hover {
+        background: #30363d;
+        color: #79c0ff;
+    }
+
+    .message-row {
+        display: flex;
+        margin-bottom: 16px;
+        width: 100%;
+    }
+
+    .message-row.user {
+        justify-content: flex-end;
+    }
+
+    .message-row.bot {
+        justify-content: flex-start;
+    }
+
+    .bubble {
+        max-width: 85%;
+        padding: 14px 18px;
+        border-radius: 8px;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .bubble.user {
+        background-color: #238636;
+        color: #ffffff;
+    }
+
+    .bubble.bot {
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        color: #e6edf3;
+        overflow-x: auto;
+        min-width: 0;
+    }
+
+    .bubble.bot table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .bubble.bot th,
+    .bubble.bot td {
+        border: 1px solid #30363d;
+        padding: 8px 12px;
+        font-size: 13px;
+        text-align: left;
+    }
+
+    .bubble.bot th {
+        background-color: #21262d;
+        color: #58a6ff;
+    }
+
+    .input-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #0e1117;
+        padding: 20px 10%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .input-wrapper {
+        width: 100%;
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        padding: 4px 8px 4px 16px;
+    }
+
+    .input-wrapper:focus-within {
+        border-color: #58a6ff;
+    }
+
+    .chat-input {
+        width: 100%;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: #ffffff;
+        font-size: 14px;
+        padding: 10px 0;
+        min-width: 0;
+    }
+
+    .send-btn {
+        background-color: #21262d;
+        color: #8b949e;
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 6px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .send-btn.active {
+        background-color: #238636;
+        color: #ffffff;
+    }
+
+    /* =================================
+       MOBILE RESPONSIVE DESIGN
+    ================================= */
+
+    @media screen and (max-width: 768px) {
+
+        body {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 100%;
+            height: auto;
+            max-height: 34vh;
+            flex-shrink: 0;
+            overflow-y: auto;
+            padding: 12px;
+            border-right: none;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .badge-header {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-title {
+            font-size: 12px;
+        }
+
+        .sidebar-text {
+            font-size: 11px;
+        }
+
+        .college-select {
+            width: 100%;
+            font-size: 12px;
+        }
+
+        .category-header {
+            padding: 8px;
+            font-size: 12px;
+        }
+
+        .clear-btn {
+            margin-top: 10px;
+        }
+
+        .main-container {
+            width: 100%;
+            min-width: 0;
+            height: auto;
+            min-height: 0;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .chat-content {
+            min-height: 0;
+            padding: 16px 12px 85px;
+        }
+
+        .header-title {
+            font-size: 20px;
+            line-height: 1.3;
+            flex-wrap: wrap;
+        }
+
+        .header-sub {
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .message-row {
+            width: 100%;
+        }
+
+        .bubble {
+            max-width: 100%;
+            padding: 10px 12px;
+            font-size: 13px;
+            overflow-wrap: anywhere;
+        }
+
+        .bubble.bot {
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        .bubble.bot table {
+            min-width: 480px;
+        }
+
+        .selection-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .portal-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .input-bar {
+            padding: 10px 12px;
+        }
+
+        .input-wrapper {
+            width: 100%;
+            padding-left: 10px;
+        }
+
+        .chat-input {
+            min-width: 0;
+            font-size: 13px;
+        }
+
+        .send-btn {
+            flex-shrink: 0;
+        }
+    }
+
+    @media screen and (max-width: 400px) {
+
+        .header-title {
+            font-size: 18px;
+        }
+
+        .sidebar {
+            padding: 10px;
+        }
+
+        .chat-content {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+    }
+</style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="badge-header">ADMISSIONS PORTAL</div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title"><i class="fa-solid fa-circle-info"></i> System Info</div>
+            <div class="sidebar-text">Agentic RAG Assistant powered by Groq Llama 3.3.</div>
+            <div class="sidebar-text" style="color: #8b949e;">Top Bengaluru Colleges: {{ total_colleges }}</div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title"><i class="fa-solid fa-graduation-cap"></i> Direct College Explorer:</div>
+            
+<select id="collegeDropdown" class="college-select" onchange="fetchSelectedCollegeInfo()">
+    <option value="">-- Select a College --</option>
+
+    {% for college in colleges %}
+        <option value="{{ college.name }}">
+            {{ forloop.counter }}. {{ college.name }}
+        </option>
+    {% endfor %}
+
+</select>
+
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title">Categories & Portals:</div>
+            <ul class="category-menu">
+                <li>
+                    <div class="category-header" onclick="showAdmissionSelection()">
+                        <span><i class="fa-solid fa-user-graduate"></i> Admission Quotas</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </li>
+                <li>
+                    <div class="category-header" onclick="toggleSubmenu('coursesMenu', this)">
+                        <span><i class="fa-solid fa-book"></i> Courses & Branches</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <ul class="submenu" id="coursesMenu">
+                        <li class="submenu-item" onclick="sendQuery('List top colleges offering B.Tech CSE, AIML, and Data Science in Bengaluru')">CSE / AIML / Data Science</li>
+                        <li class="submenu-item" onclick="sendQuery('Which colleges offer ECE and ISE in Bengaluru?')">ECE & ISE Branches</li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="category-header" onclick="toggleSubmenu('feesMenu', this)">
+                        <span><i class="fa-solid fa-indian-rupee-sign"></i> Fees Comparison</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <ul class="submenu" id="feesMenu">
+                        <li class="submenu-item" onclick="sendQuery('Compare annual tuition fees for KCET, COMEDK, and Management quota')">Complete Fee Structure</li>
+                        <li class="submenu-item" onclick="sendQuery('Which engineering colleges have the lowest fee structure in Bengaluru?')">Lowest Fee Colleges</li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="category-header" onclick="showOfficialPortals()">
+                        <span><i class="fa-solid fa-globe"></i> Official Websites & Contacts</span>
+                        <i class="fa-solid fa-link"></i>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <button class="clear-btn" onclick="clearChat()">
+            <i class="fa-solid fa-trash-can"></i> Clear Chat History
+        </button>
+    </div>
+
+    <div class="main-container">
+        <div class="chat-content" id="chatWindow">
+            <div class="header-title">🎓 AI-Powered College Enquiry Chatbot</div>
+            <div class="header-sub">Ask about admissions, cutoffs, fee structures, placements, and direct official college portals.</div>
+            <div id="messagesList"></div>
+        </div>
+
+        <div class="input-bar">
+            <div class="input-wrapper">
+                <input type="text" id="userInput" class="chat-input" placeholder="Ask your college question..." onkeypress="handleKeyPress(event)" oninput="toggleSendBtn()">
+                <button class="send-btn" id="sendBtn" onclick="sendMessage()"><i class="fa-solid fa-arrow-up"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSubmenu(id, headerElem) {
+            const menu = document.getElementById(id);
+            menu.classList.toggle('open');
+        }
+
+        function toggleSendBtn() {
+            const input = document.getElementById('userInput');
+            const btn = document.getElementById('sendBtn');
+            btn.classList.toggle('active', input.value.trim() !== "");
+        }
+
+        function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
+
+        function fetchSelectedCollegeInfo() {
+            const dropdown = document.getElementById('collegeDropdown');
+            const collegeName = dropdown.value;
+            if (collegeName) {
+                sendQuery(`Give me full details for ${collegeName} including official website link, address, contact numbers, admission email, cutoffs, fee structure, and placement packages.`);
+            }
+        }
+
+        function showAdmissionSelection() {
+            const messagesList = document.getElementById('messagesList');
+            messagesList.innerHTML += `
+                <div class="message-row bot">
+                    <div class="bubble bot">
+                        <strong>Select an Admission Quota to explore options:</strong>
+                        <div class="selection-grid">
+                            <div class="selection-card" onclick="sendQuery('Explain KCET Government quota admission process, cutoffs, and fees')">
+                                <div class="selection-title"><i class="fa-solid fa-building-columns"></i> KCET Quota (Govt)</div>
+                                <div class="selection-desc">Karnataka Domicile | Low Fees (₹1.75L - ₹2.2L)</div>
+                            </div>
+                            <div class="selection-card" onclick="sendQuery('Explain COMEDK Private quota admission process, cutoffs, and fees')">
+                                <div class="selection-title"><i class="fa-solid fa-award"></i> COMEDK Quota (Private)</div>
+                                <div class="selection-desc">All India Students | Merit Seats (₹2.8L - ₹3.5L)</div>
+                            </div>
+                            <div class="selection-card" onclick="sendQuery('Explain Management quota direct admission process and seat costs for B.Tech CSE')">
+                                <div class="selection-title"><i class="fa-solid fa-briefcase"></i> Management Quota</div>
+                                <div class="selection-desc">Direct Admission | Higher Fee Range</div>
+                            </div>
+                            <div class="selection-card" onclick="showOfficialPortals()">
+                                <div class="selection-title"><i class="fa-solid fa-globe"></i> Official College Links</div>
+                                <div class="selection-desc">Direct official portals to apply</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            const chatWindow = document.getElementById('chatWindow');
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        function showOfficialPortals() {
+            const messagesList = document.getElementById('messagesList');
+            messagesList.innerHTML += `
+                <div class="message-row bot">
+                    <div class="bubble bot">
+                        <div class="portal-title"><i class="fa-solid fa-building"></i> Official College Websites & Admission Portals:</div>
+                        <div class="portal-grid">
+                            <a href="https://rvce.edu.in" target="_blank" class="portal-link">RVCE Official Portal ↗</a>
+                            <a href="https://bmsce.ac.in" target="_blank" class="portal-link">BMSCE Official Portal ↗</a>
+                            <a href="https://msrit.edu" target="_blank" class="portal-link">MSRIT Official Portal ↗</a>
+                            <a href="https://pes.edu" target="_blank" class="portal-link">PES University Portal ↗</a>
+                            <a href="https://iiitb.ac.in" target="_blank" class="portal-link">IIIT Bengaluru ↗</a>
+                            <a href="https://bit-bangalore.edu.in" target="_blank" class="portal-link">BIT Bengaluru ↗</a>
+                            <a href="https://uvce.ac.in" target="_blank" class="portal-link">UVCE Official Portal ↗</a>
+                            <a href="https://dayanandasagar.edu" target="_blank" class="portal-link">DSCE Official Portal ↗</a>
+                            <a href="https://bmsit.ac.in" target="_blank" class="portal-link">BMSIT & Management ↗</a>
+                            <a href="https://nmit.ac.in" target="_blank" class="portal-link">NMIT Official Portal ↗</a>
+                            <a href="https://rnsit.ac.in" target="_blank" class="portal-link">RNSIT Official Portal ↗</a>
+                            <a href="https://newhorizonindia.edu" target="_blank" class="portal-link">NHCE Official Portal ↗</a>
+                            <a href="https://cmrit.ac.in" target="_blank" class="portal-link">CMRIT Official Portal ↗</a>
+                            <a href="https://reva.edu.in" target="_blank" class="portal-link">REVA University ↗</a>
+                            <a href="https://gardencity.university" target="_blank" class="portal-link">Garden City University (GCU) ↗</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            const chatWindow = document.getElementById('chatWindow');
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        function clearChat() { document.getElementById('messagesList').innerHTML = ''; }
+
+        function sendQuery(text) {
+            document.getElementById('userInput').value = text;
+            toggleSendBtn();
+            sendMessage();
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const messagesList = document.getElementById('messagesList');
+            messagesList.innerHTML += `<div class="message-row user"><div class="bubble user">${text}</div></div>`;
+            input.value = '';
+            toggleSendBtn();
+
+            const chatWindow = document.getElementById('chatWindow');
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+
+            fetch('/chat-api/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: text })
+            })
+            .then(res => res.json())
+            .then(data => {
+                const htmlContent = marked.parse(data.response || 'No response.');
+                messagesList.innerHTML += `<div class="message-row bot"><div class="bubble bot">${htmlContent}</div></div>`;
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            })
+            .catch(err => {
+                messagesList.innerHTML += `<div class="message-row bot"><div class="bubble bot" style="border-color:#da3633;">Connection error. Please restart server.</div></div>`;
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,653 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>College Enquiry Portal | Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f7fb;
+            color: #172033;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        /* NAVIGATION */
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e5eaf2;
+            padding: 15px 6%;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: 750;
+            color: #1e3a8a;
+            text-decoration: none;
+        }
+
+        .nav-link {
+            color: #475569;
+            font-weight: 600;
+        }
+
+        .nav-link:hover {
+            color: #2563eb;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            margin: 35px auto;
+            width: 88%;
+            padding: 55px;
+            border-radius: 22px;
+            background: linear-gradient(120deg, #e8f0ff, #f0f7ff);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1d4ed8;
+            padding: 8px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            font-size: clamp(30px, 4vw, 48px);
+            font-weight: 800;
+            line-height: 1.15;
+            color: #172554;
+            margin-bottom: 18px;
+        }
+
+        .hero p {
+            color: #52627a;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .primary-btn {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 13px 22px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-weight: 700;
+            margin-top: 14px;
+        }
+
+        .primary-btn:hover {
+            background: #1d4ed8;
+            color: white;
+        }
+
+        .hero-icon {
+            font-size: 130px;
+            color: #2563eb;
+            padding: 35px;
+        }
+
+        /* COMMON SECTION */
+        .section {
+            width: 88%;
+            margin: 35px auto;
+        }
+
+        .section-heading {
+            font-size: 25px;
+            font-weight: 750;
+            color: #172554;
+            margin-bottom: 8px;
+        }
+
+        .section-description {
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        /* FEATURE CARDS */
+        .stat-card {
+            background: white;
+            border: 1px solid #e8edf5;
+            border-radius: 15px;
+            padding: 22px;
+            height: 100%;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eff6ff;
+            color: #2563eb;
+            border-radius: 12px;
+            font-size: 21px;
+            margin-bottom: 15px;
+        }
+
+        .stat-number {
+            font-size: 27px;
+            font-weight: 800;
+            color: #172554;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .feature-card {
+            background: #ffffff;
+            border: 1px solid #e8edf5;
+            border-radius: 16px;
+            padding: 25px;
+            height: 100%;
+            transition: 0.2s;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.09);
+        }
+
+        .feature-icon {
+            font-size: 28px;
+            color: #2563eb;
+            margin-bottom: 18px;
+        }
+
+        .feature-card h5 {
+            color: #172554;
+            font-weight: 750;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.7;
+            min-height: 48px;
+        }
+
+        .feature-link {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .feature-link:hover {
+            color: #1d4ed8;
+        }
+
+        /* INFORMATION SECTION */
+        .info-panel {
+            background: #ffffff;
+            border: 1px solid #e8edf5;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .info-item {
+            padding: 13px 0;
+            border-bottom: 1px solid #edf0f5;
+            color: #475569;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: 55px;
+            padding: 25px;
+            background: #172554;
+            color: #dbeafe;
+            text-align: center;
+        }
+
+        /* MOBILE RESPONSIVE */
+        @media (max-width: 768px) {
+
+            .navbar {
+                padding: 13px 5%;
+            }
+
+            .brand {
+                font-size: 18px;
+            }
+
+            .hero {
+                width: 92%;
+                padding: 30px 22px;
+                margin: 22px auto;
+            }
+
+            .hero-icon {
+                display: none;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
+
+            .section {
+                width: 92%;
+            }
+
+            .section-heading {
+                font-size: 22px;
+            }
+
+            .stat-card,
+            .feature-card {
+                padding: 18px;
+            }
+        }
+
+        @media (max-width: 400px) {
+
+            .hero {
+                padding: 25px 18px;
+            }
+
+            .hero h1 {
+                font-size: 29px;
+            }
+
+            .section-heading {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+
+        <a class="brand" href="{% url 'dashboard' %}">
+            <i class="fa-solid fa-graduation-cap"></i>
+            College Enquiry Portal
+        </a>
+
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mainNavigation"
+                aria-label="Toggle navigation">
+
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavigation">
+
+            <ul class="navbar-nav ms-auto gap-lg-3">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dashboard' %}">
+                        Home
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'chatbot' %}">
+                        AI Chatbot
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'reports' %}">
+                        Reports
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<!-- HERO SECTION -->
+<section class="hero">
+
+    <div class="hero-content">
+
+        <span class="hero-tag">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            AI POWERED ADMISSION ASSISTANT
+        </span>
+
+        <h1>
+            Find Your Future College with Smart AI Assistance
+        </h1>
+
+        <p>
+            Explore Bengaluru engineering colleges, understand
+            admission requirements, compare fees and placements,
+            and get instant answers using our AI-powered
+            college enquiry chatbot.
+        </p>
+
+        <a href="{% url 'chatbot' %}" class="primary-btn">
+            Explore Colleges
+            <i class="fa-solid fa-arrow-right ms-2"></i>
+        </a>
+
+    </div>
+
+    <div class="hero-icon">
+        <i class="fa-solid fa-user-graduate"></i>
+    </div>
+
+</section>
+
+
+<!-- PORTAL OVERVIEW -->
+<section class="section">
+
+    <h2 class="section-heading">
+        Portal Overview
+    </h2>
+
+    <p class="section-description">
+        Your college admission information in one place.
+    </p>
+
+    <div class="row g-3">
+
+        <!-- AI ASSISTANT -->
+        <div class="col-12 col-md-4">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+
+                <div class="stat-number">AI</div>
+
+                <div class="stat-label">
+                    Smart Chat Assistant
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RAG -->
+        <div class="col-12 col-md-4">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    <i class="fa-solid fa-database"></i>
+                </div>
+
+                <div class="stat-number">RAG</div>
+
+                <div class="stat-label">
+                    Knowledge Retrieval
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- REPORTS -->
+        <div class="col-12 col-md-4">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    <i class="fa-solid fa-file-lines"></i>
+                </div>
+
+                <div class="stat-number">Reports</div>
+
+                <div class="stat-label">
+                    College Data Reports
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- EXPLORE FEATURES -->
+<section class="section">
+
+    <h2 class="section-heading">
+        Explore Our Features
+    </h2>
+
+    <p class="section-description">
+        Everything students need to make informed college decisions.
+    </p>
+
+    <div class="row g-4">
+
+        <!-- CHATBOT -->
+        <div class="col-md-6 col-lg-3">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+
+                <h5>AI College Chatbot</h5>
+
+                <p>
+                    Ask questions about admissions, courses,
+                    fees, cutoffs and placements.
+                </p>
+
+                <a href="{% url 'chatbot' %}" class="feature-link">
+                    Start Chatting
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- COLLEGE COMPARISON -->
+        <div class="col-md-6 col-lg-3">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                </div>
+
+                <h5>Compare Colleges</h5>
+
+                <p>
+                    Compare engineering colleges by fees,
+                    courses, cutoffs and placement packages.
+                </p>
+
+                <a href="{% url 'chatbot' %}" class="feature-link">
+                    Compare Now
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- REPORTS -->
+        <div class="col-md-6 col-lg-3">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    <i class="fa-solid fa-chart-column"></i>
+                </div>
+
+                <h5>College Reports</h5>
+
+                <p>
+                    View college information and export
+                    records as CSV or save reports as PDF.
+                </p>
+
+                <a href="{% url 'reports' %}" class="feature-link">
+                    View Reports
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- COLLEGE INFORMATION -->
+        <div class="col-md-6 col-lg-3">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+
+                <h5>College Information</h5>
+
+                <p>
+                    Explore Bengaluru colleges and their
+                    available admission information.
+                </p>
+
+                <a href="{% url 'chatbot' %}" class="feature-link">
+                    Explore Colleges
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- INFORMATION SECTION -->
+<section class="section">
+
+    <div class="row g-4">
+
+        <div class="col-lg-6">
+
+            <div class="info-panel h-100">
+
+                <h4 class="section-heading">
+                    What Can You Explore?
+                </h4>
+
+                <div class="info-item">
+                    <i class="fa-solid fa-book-open text-primary me-2"></i>
+                    Engineering courses and branches
+                </div>
+
+                <div class="info-item">
+                    <i class="fa-solid fa-indian-rupee-sign text-primary me-2"></i>
+                    KCET, COMEDK and management fees
+                </div>
+
+                <div class="info-item">
+                    <i class="fa-solid fa-chart-line text-primary me-2"></i>
+                    Admission cutoffs and placement packages
+                </div>
+
+                <div class="info-item">
+                    <i class="fa-solid fa-globe text-primary me-2"></i>
+                    College websites and contact information
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="info-panel h-100 d-flex flex-column justify-content-center">
+
+                <h4 class="section-heading">
+                    Need Admission Guidance?
+                </h4>
+
+                <p class="text-secondary">
+                    Start a conversation with the AI assistant
+                    and get answers from the college information
+                    available in the portal.
+                </p>
+
+                <a href="{% url 'chatbot' %}"
+                   class="primary-btn align-self-start">
+
+                    Ask AI Assistant
+                    <i class="fa-solid fa-arrow-right ms-2"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+
+    <h5>College Enquiry Portal</h5>
+
+    <p class="mb-1">
+        AI-Powered College Information and Admission Assistant
+    </p>
+
+    <small>
+        Academic Project | Artificial Intelligence and Machine Learning
+    </small>
+
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
